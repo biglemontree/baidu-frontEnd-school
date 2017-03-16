@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    class Observer {
+
+        constructor(data, x){
+
+            this.data = data
+            this.walk(data)
+            this.x = x
+        }
+//        getter(key, that){
+//            console.log(this.x)
+//            if(this.data[key]){
+//                console.log(`您访问了${key}`)
+//            }
+//        }
+//        setter(key, value){
+//            if(this.data[key]){
+//                this.data[key] = value
+//                console.log(`您设置了${key},新的值为${value}`)
+//            }
+//        }
+        walk(obj){
+            let val;
+            for (let key in obj){
+
+                if(obj.hasOwnProperty(key)){
+                    val = obj[key]
+
+                    if(typeof val === 'object'){
+                        new Observer(val)
+                    }
+                    this.convert(key, val)
+                }
+            }
+        }
+        convert(key, val){
+            Object.defineProperty(this.data, key, {
+                enumerable: true,
+                configurable: true,
+                get: function () {
+                    console.log('你访问了' + key);
+                    return val
+                },
+                set: function (newVal) {
+                    console.log('你设置了' + key);
+                    console.log('新的' + key + ' = ' + newVal)
+                    if (newVal === val) return;
+                    val = newVal
+                }
+            })
+        }
+
+    }
+
+    let app1 = new Observer({
+        name: 'youngwind',
+        age: 25
+    },'yy');
+    let app2 = new Observer({
+        university: 'bupt',
+        major: 'computer'
+    });
+
+    // 要实现的结果如下：
+    app1.data.name // 你访问了 name
+    app1.data.age = 100;  // 你设置了 age，新的值为100
+    app2.data.university // 你访问了 university
+    app2.data.major = 'science'  // 你设置了 major，新的值为 science
+</script>
+</body>
+</html>
