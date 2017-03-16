@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    class Vue {
+        constructor(obj){
+            this.el = obj.el
+            this.data = obj.data
+            this.updateView(this.render(this.el))
+        }
+        render(tpl){
+
+        }
+        tokenize(str){
+            let openTag = '{{';
+            let closeTag = '}}';
+            let ret = []
+            do {
+                var index = str.indexOf(openTag)
+                index = index===-1?index.length: index
+
+            }
+
+        }
+    }
+</script>
+</body>
+</html>

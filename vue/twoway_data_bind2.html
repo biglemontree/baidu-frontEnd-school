@@ -6,6 +6,30 @@
 </head>
 <body>
 <script>
+    class Event {
+        constructor(){
+            this.events = {}
+        }
+        on(attr, callback){
+            if(this.events[attr]){
+                this.events[attr].push(callback)
+            }else {
+                this.events[attr] = [callback]
+            }
+        }
+        off(attr){
+            for(let key in this.events){
+                if(this.events.hasOwnProperty(key) && attr === key){
+                    delete this.events[key]
+                }
+            }
+        }
+        emit(attr, ...args){
+            this.events[attr] && this.events[attr].forEach(item){
+                item(...args)
+            }
+        }
+    }
     class Observer {
 
         constructor(data){
@@ -15,6 +39,9 @@
             this.eventBus = new Event()
         }
 
+        Event(){
+            this.events = {}
+        }
         walk(obj){
             let val;
             for (let key in obj){
