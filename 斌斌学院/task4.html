@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html xmlns:svg="http://www.w3.org/2000/svg">
 <html>
 	<head>
 		<meta charset="{CHARSET}">
@@ -26,7 +26,7 @@
 		<button id="right-out">右侧出</button>	
 		
 		<div class="num-block">
-			<svg width='100%' class="svg-wrap">
+			<svg width='100%' class="svg-wrap" xmlns="http://www.w3.org/2000/svg" version="1.1">
 				<!--<rect width='30' height='35' fill='red' y='65' stroke-width='5' stroke='#fff'></rect>
 				<rect width='30' height='65' fill='red' x='30' y='35' stroke-width='5' stroke='#fff'></rect>
 				<rect width='30' height='75' fill='red' x='60' y='25' stroke-width='5' stroke='#fff'></rect>
@@ -58,7 +58,7 @@
 				}
 				if(!inputVal.match(/\d/g)) alert('您输入的不是数字')
 				for (let btn of btns) {
-					btn.disabled = 'disabled'
+//					btn.disabled = 'disabled'
 				}
 			}, false)
 			//input 获取焦点, 按钮恢复可点击状态
@@ -75,13 +75,13 @@
 			var i = 0
 			var WIDTH = '30',
 				STROKEWIDTH = '5',
-				STROKE = '#FFF',
+				STROKE = '#fff',
 				MAXHEIGHT = '100',
 				FILL = 'red';
 			var result = []
-			function createEle (x, y) {
+			function createEle (x) {
 				let inputVal = inputEle.value
-				let newNode = document.createElement('rect')
+				let newNode = document.createElementNS('w3.org/2000/svg','rect')
 				newNode.setAttribute('width', WIDTH)
 				newNode.setAttribute('height', inputVal)
 				newNode.setAttribute('fill', FILL)
@@ -95,14 +95,17 @@
 			}
 			var numBlock = document.getElementsByClassName('svg-wrap')[0]
 			queueShow(leftIn, function () {
+				i++
 				var numQueue = document.querySelectorAll('rect').length
 				if(numQueue > 60) alert('添加数超过60')
-				var newNode = createEle('30','30')
+				var newNode = createEle('30')
 				console.log(newNode)
 				numBlock.insertBefore(newNode, numBlock.firstChild)
 			})
 			queueShow(rightIn, function () {
-				var newNode = createEle('span')
+				i++
+				var newNode = createEle(30*i)
+				console.log(newNode)
 				numBlock.appendChild(newNode)
 			})
 			queueShow(leftOut, function () {
