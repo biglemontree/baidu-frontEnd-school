@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="{CHARSET}">
+		<title></title>
+		<style type="text/css">
+			body {
+				background-color: #EEF3FA;
+			}
+			span {
+				text-align: center;
+				border: 1px solid;
+				margin: 1rem;
+			}
+			svg {
+				background-color: #fff;
+			}
+		</style>
+	</head>
+	<body>
+		<input type="text" name="inputVal" id="inputVal" value="" />
+		<button id="left-in">左侧入</button>	
+		<button id="right-in">右侧入</button>	
+		
+		<button id="left-out">左侧出</button>	
+		<button id="right-out">右侧出</button>	
+		
+		<div class="num-block">
+			<svg width='100%' class="svg-wrap">
+				<!--<rect width='30' height='35' fill='red' y='65' stroke-width='5' stroke='#fff'></rect>
+				<rect width='30' height='65' fill='red' x='30' y='35' stroke-width='5' stroke='#fff'></rect>
+				<rect width='30' height='75' fill='red' x='60' y='25' stroke-width='5' stroke='#fff'></rect>
+				<rect width='30' height='75' fill='red' x='90' y='25' stroke-width='5' stroke='#fff'></rect>
+				<rect width='30' height='75' fill='red' x='120' y='25' stroke-width='5' stroke='#fff'></rect>
+				<rect width='30' height='75' fill='red' x='150' y='25' stroke-width='5' stroke='#fff'></rect>
+				<rect width='30' height='75' fill='red' x='180' y='25' stroke-width='5' stroke='#fff'></rect>
+				<rect width='30' height='75' fill='red' x='210' y='25' stroke-width='5' stroke='#fff'></rect>
+				<rect width='30' height='75' fill='red' x='240' y='25' stroke-width='5' stroke='#fff'></rect>
+				<rect width='30' height='75' fill='red' x='270' y='25' stroke-width='5' stroke='#fff'></rect>
+				<rect width='30' height='75' fill='red' x='300' y='25' stroke-width='5' stroke='#fff'></rect>
+				<rect width='30' height='75' fill='red' x='330' y='25' stroke-width='5' stroke='#fff'></rect>
+				<rect width='30' height='75' fill='red' x='360' y='25' stroke-width='5' stroke='#fff'></rect>
+				<rect width='30' height='75' fill='red' x='60' y='25' stroke-width='5' stroke='#fff'></rect>-->
+			</svg>
+		</div>
+		
+		<script type="text/javascript">
+			let leftIn = document.getElementById('left-in')
+			let rightIn = document.getElementById('right-in')
+			let leftOut = document.getElementById('left-out')
+			let rightOut = document.getElementById('right-out')
+			let inputEle = document.getElementById('inputVal')
+			let btns = document.querySelectorAll('button')
+			inputEle.addEventListener('change', () => {
+				let inputVal = inputEle.value
+				if(inputVal<10 || inputVal>100){
+					alert('您输入的数字不在10-100')
+				}
+				if(!inputVal.match(/\d/g)) alert('您输入的不是数字')
+				for (let btn of btns) {
+					btn.disabled = 'disabled'
+				}
+			}, false)
+			//input 获取焦点, 按钮恢复可点击状态
+			inputEle.addEventListener('focus', ()=> {
+				for (let btn of btns) {
+					btn.disabled = ''
+				}
+			})
+			
+			function queueShow (el, cb) {
+				el.onclick = cb
+			}
+			
+			var i = 0
+			var WIDTH = '30',
+				STROKEWIDTH = '5',
+				STROKE = '#FFF',
+				MAXHEIGHT = '100',
+				FILL = 'red';
+			var result = []
+			function createEle (x, y) {
+				let inputVal = inputEle.value
+				let newNode = document.createElement('rect')
+				newNode.setAttribute('width', WIDTH)
+				newNode.setAttribute('height', inputVal)
+				newNode.setAttribute('fill', FILL)
+				newNode.setAttribute('x', x)
+				newNode.setAttribute('y', MAXHEIGHT - inputVal)
+				newNode.setAttribute('stroke-width', STROKEWIDTH)
+				newNode.setAttribute('stroke', STROKE)
+
+				
+				return newNode
+			}
+			var numBlock = document.getElementsByClassName('svg-wrap')[0]
+			queueShow(leftIn, function () {
+				var numQueue = document.querySelectorAll('rect').length
+				if(numQueue > 60) alert('添加数超过60')
+				var newNode = createEle('30','30')
+				console.log(newNode)
+				numBlock.insertBefore(newNode, numBlock.firstChild)
+			})
+			queueShow(rightIn, function () {
+				var newNode = createEle('span')
+				numBlock.appendChild(newNode)
+			})
+			queueShow(leftOut, function () {
+				var firstChild = numBlock.firstChild
+				if (firstChild.nodeType==3) {
+					numBlock.removeChild(firstChild)
+				}
+				firstChild = numBlock.firstChild
+				firstChild && numBlock.removeChild(firstChild)
+				alert(firstChild.innerText)
+			})
+			queueShow(rightOut, function () {
+				var lastChild = numBlock.lastChild
+				if (lastChild.nodeType==3) {
+					numBlock.removeChild(lastChild)
+				}
+				lastChild = numBlock.lastChild
+				lastChild && numBlock.removeChild(lastChild)
+				alert(lastChild.innerText)
+			})
+		</script>
+	</body>
+</html>
